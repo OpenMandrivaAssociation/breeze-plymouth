@@ -5,12 +5,15 @@
 Summary:	The Breeze theme for the Plymouth boot splash system
 Name:		breeze-plymouth
 Version:	5.18.3
-Release:	2
+Release:	3
 License:	GPL
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org
 Source0:	http://download.kde.org/%{stable}/plasma/%(echo %{version} |cut -d. -f1-3)/%{name}-%{version}.tar.xz
+# (tpg) https://bugs.kde.org/show_bug.cgi?id=371276
+Source1:	https://src.fedoraproject.org/rpms/plymouth-theme-breeze/raw/master/f/plymouth-theme-breeze.conf
 Requires:	plymouth
+Requires:	plymouth-plugin-script
 BuildRequires:	cmake ninja
 BuildRequires:	cmake(ECM)
 BuildRequires:	pkgconfig(ply-boot-client)
@@ -18,7 +21,6 @@ BuildRequires:	pkgconfig(ply-splash-core)
 BuildRequires:	distro-release
 # For the logo
 BuildRequires:	distro-theme-OpenMandriva
-BuildRequires:	imagemagick
 
 %description
 This package contains a version of the KDE Breeze theme for
@@ -28,17 +30,21 @@ Plymouth boot splash system
 %{_datadir}/plymouth/themes/breeze
 %{_datadir}/plymouth/themes/breeze-text
 %{_libdir}/plymouth/breeze-text.so
+%{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
 
 %prep
 %autosetup
 %cmake_kde5 \
 	-DDISTRO_NAME="%product_distribution" \
 	-DDISTRO_VERSION="%product_version" \
-	-DDISTRO_LOGO=openmandriva.logo.png
+	-DDISTRO_LOGO=system-logo-white.png
 
 %build
 %ninja_build -C build
 
 %install
 %ninja_install -C build
-convert %{_datadir}/icons/openmandriva.svg -scale 128x128 %{buildroot}%{_datadir}/plymouth/themes/breeze/images/openmandriva.logo.png
+
+# (tpg) https://bugs.kde.org/show_bug.cgi?id=371276
+install -D -m644 -p %{SOURCE1} %{buildroot}%{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
+cp -a %{_datadir}/pixmaps/system-logo-white.png %{buildroot}%{_datadir}/plymouth/themes/breeze/images/system-logo-white.png
