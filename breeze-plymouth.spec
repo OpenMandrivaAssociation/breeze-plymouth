@@ -5,7 +5,7 @@
 Summary:	The Breeze theme for the Plymouth boot splash system
 Name:		breeze-plymouth
 Version:	5.18.3
-Release:	3
+Release:	4
 License:	GPL
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org
@@ -19,8 +19,9 @@ BuildRequires:	cmake(ECM)
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(ply-splash-core)
 BuildRequires:	distro-release
-# For the logo
+# For the logo system-white-logo
 BuildRequires:	distro-theme-OpenMandriva
+BuildRequires:	imagemagick
 
 %description
 This package contains a version of the KDE Breeze theme for
@@ -37,7 +38,7 @@ Plymouth boot splash system
 %cmake_kde5 \
 	-DDISTRO_NAME="%product_distribution" \
 	-DDISTRO_VERSION="%product_version" \
-	-DDISTRO_LOGO=system-logo-white.png
+	-DDISTRO_LOGO=openmandriva
 
 %build
 %ninja_build -C build
@@ -47,4 +48,6 @@ Plymouth boot splash system
 
 # (tpg) https://bugs.kde.org/show_bug.cgi?id=371276
 install -D -m644 -p %{SOURCE1} %{buildroot}%{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
-cp -a %{_datadir}/pixmaps/system-logo-white.png %{buildroot}%{_datadir}/plymouth/themes/breeze/images/system-logo-white.png
+# (tpg) convert our logo
+convert -scale 128x128 %{_datadir}/pixmaps/system-logo-white.png %{buildroot}%{_datadir}/plymouth/themes/breeze/images/openmandriva.logo.png
+convert -scale 128x128 -background black -alpha remove -alpha off %{_datadir}/pixmaps/system-logo-white.png %{buildroot}%{_datadir}/plymouth/themes/breeze/images/16bit/openmandriva.logo.png
