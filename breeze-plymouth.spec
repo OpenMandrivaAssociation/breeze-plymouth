@@ -2,7 +2,7 @@
 
 Summary:	The Breeze theme for the Plymouth boot splash system
 Name:		breeze-plymouth
-Version:	5.25.3
+Version:	5.25.4
 Release:	1
 License:	GPL
 Group:		Graphical desktop/KDE
