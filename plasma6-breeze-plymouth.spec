@@ -1,5 +1,5 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 70 ] && echo -n un; echo -n stable)
-%define git 20230812
+%define git 20230819
 
 Summary:	The Breeze theme for the Plymouth boot splash system
 Name:		plasma6-breeze-plymouth
