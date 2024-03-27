@@ -5,8 +5,8 @@
 
 Summary:	The Breeze theme for the Plymouth boot splash system
 Name:		plasma6-breeze-plymouth
-Version:	6.0.2
-Release:	%{?git:0.%{git}.}2
+Version:	6.0.3
+Release:	%{?git:0.%{git}.}1
 License:	GPL
 Group:		Graphical desktop/KDE
 Url:		http://www.kde.org
