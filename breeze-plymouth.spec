@@ -6,7 +6,7 @@ Version:	5.27.11
 Release:	1
 License:	GPL
 Group:		Graphical desktop/KDE
-Url:		http://www.kde.org
+Url:		https://www.kde.org
 Source0:	http://download.kde.org/%{stable}/plasma/%(echo %{version} |cut -d. -f1-3)/%{name}-%{version}.tar.xz
 # (tpg) https://bugs.kde.org/show_bug.cgi?id=371276
 Source1:	https://src.fedoraproject.org/rpms/plymouth-theme-breeze/raw/master/f/plymouth-theme-breeze.conf
