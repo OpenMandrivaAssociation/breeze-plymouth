@@ -4,7 +4,7 @@
 %define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 
 Summary:	The Breeze theme for the Plymouth boot splash system
-Name:		plasma6-breeze-plymouth
+Name:		breeze-plymouth
 Version:	6.3.4
 Release:	%{?git:0.%{git}.}1
 License:	GPL
@@ -27,6 +27,15 @@ BuildRequires:	distro-release
 # For the logo system-white-logo
 BuildRequires:	distro-theme-OpenMandriva
 BuildRequires:	imagemagick
+# Renamed after 6.0 2025-05-03
+%rename plasma6-breeze-plymouth
+
+BuildSystem:	cmake
+BuildOption:	-DDISTRO_NAME="%product_distribution"
+BuildOption:	-DDISTRO_VERSION="%product_version"
+BuildOption:	-DDISTRO_LOGO=openmandriva
+BuildOption:	-DBUILD_QCH:BOOL=ON
+BuildOption:	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
 
 %description
 This package contains a version of the KDE Breeze theme for
@@ -38,23 +47,7 @@ Plymouth boot splash system
 %{_libdir}/plymouth/breeze-text.so
 %{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
 
-%prep
-%autosetup -n breeze-plymouth-%{?git:%{gitbranchd}}%{!?git:%{version}}
-%cmake \
-	-DDISTRO_NAME="%product_distribution" \
-	-DDISTRO_VERSION="%product_version" \
-	-DDISTRO_LOGO=openmandriva \
-	-DBUILD_QCH:BOOL=ON \
-	-DBUILD_WITH_QT6:BOOL=ON \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
-	-G Ninja
-
-%build
-%ninja_build -C build
-
-%install
-%ninja_install -C build
-
+%install -a
 # (tpg) https://bugs.kde.org/show_bug.cgi?id=371276
 install -D -m644 -p %{SOURCE1} %{buildroot}%{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
 # (tpg) convert our logo
